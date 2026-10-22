@@ -37,7 +37,3 @@ try {
   handleApiError(error);
 }
 ```
-
-## Git hooks (Husky + lint-staged)
-
-Husky pre-commit runs `lint-staged` (prettier + eslint on staged files).
