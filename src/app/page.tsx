@@ -1,14 +1,15 @@
-import { Typography } from '@/components/Typography';
+import { About } from '@/app/components/About';
+import { BrowseStacks } from '@/app/components/BrowseStacks';
+import { Community } from '@/app/components/Community';
+import { WelcomeCards } from '@/app/components/WelcomeCards';
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-[768px] flex-1 flex-col justify-center p-[64px_16px]">
-      <Typography className="mb-[16px]" variant="h1">
-        Bookshelf
-      </Typography>
-      <Typography className="text-gray" variant="body">
-        Browse, discover and keep track of books with Open Library.
-      </Typography>
-    </main>
+    <>
+      <WelcomeCards />
+      <BrowseStacks />
+      <Community />
+      <About />
+    </>
   );
 }

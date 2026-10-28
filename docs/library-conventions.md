@@ -1,6 +1,6 @@
 # Library conventions (not in use yet)
 
-Conventions carried over from another project for libraries this project does not use yet. When one of these libraries is added, move its section into CLAUDE.md and adapt paths to this project.
+Conventions carried over from another project for libraries this project does not use yet. When one of these libraries is added, move its section into docs/conventions.md (neutral examples, no project names) and adapt paths.
 
 ## MUI (v7)
 

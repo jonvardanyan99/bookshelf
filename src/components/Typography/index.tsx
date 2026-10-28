@@ -26,13 +26,18 @@ const CLASS_NAMES: Record<Variant, string> = {
 interface Props {
   children: React.ReactNode;
   className?: string;
+  id?: string;
   variant: Variant;
 }
 
-const Component: React.FC<Props> = ({ children, className, variant }) => {
+const Component: React.FC<Props> = ({ children, className, id, variant }) => {
   const Element = ELEMENTS[variant];
 
-  return <Element className={clsx(CLASS_NAMES[variant], className)}>{children}</Element>;
+  return (
+    <Element className={clsx(CLASS_NAMES[variant], className)} id={id}>
+      {children}
+    </Element>
+  );
 };
 
 export const Typography = memo(Component);

@@ -65,6 +65,7 @@ const eslintConfig = defineConfig([
       'max-lines-per-function': ['error', 350],
       'max-statements': 'off',
       'new-cap': ['error', { capIsNew: false }],
+      'no-duplicate-imports': 'off',
       'no-magic-numbers': 'off',
       'no-shadow': 'off',
       'no-ternary': 'off',
@@ -84,12 +85,14 @@ const eslintConfig = defineConfig([
       'prefer-named-capture-group': 'off',
 
       'react/forbid-component-props': ['error', { forbid: ['style'] }],
+      'react/forbid-dom-props': ['error', { forbid: ['style'] }],
       'react/function-component-definition': 'off',
       'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
       'react/jsx-max-depth': 'off',
       'react/jsx-no-bind': ['error', { allowArrowFunctions: true }],
       'react/jsx-no-leaked-render': 'off',
       'react/jsx-no-literals': 'off',
+      'react/jsx-sort-props': ['error', { ignoreCase: true }],
       'react/jsx-props-no-spreading': 'off',
       'react/prefer-read-only-props': 'off',
       'react/prop-types': 'off',
@@ -100,6 +103,7 @@ const eslintConfig = defineConfig([
       'simple-import-sort/exports': 'error',
       'simple-import-sort/imports': 'error',
       'sort-imports': 'off',
+      'sort-keys': ['error', 'asc', { caseSensitive: false }],
 
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
@@ -121,7 +125,9 @@ const eslintConfig = defineConfig([
   {
     // Next.js requires default exports from route files and config files
     files: [
-      'src/app/**/{page,layout,template,loading,error,global-error,not-found,default}.tsx',
+      'src/app/**/{page,layout,template,loading,error,global-error,not-found,default,forbidden,unauthorized}.tsx',
+      'src/app/**/{icon,apple-icon,opengraph-image,twitter-image}.tsx',
+      'src/app/**/{sitemap,robots,manifest}.ts',
       '*.config.{ts,mjs}',
     ],
     plugins: { import: importPlugin },
