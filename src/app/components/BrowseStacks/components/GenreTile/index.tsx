@@ -4,7 +4,8 @@ import { memo } from 'react';
 
 import { GenreTileButton } from '@/app/components/BrowseStacks/components/GenreTile/components/GenreTileButton';
 import { Typography } from '@/components/Typography';
-import { getCoverUrl, getSubject } from '@/services/openLibrary';
+import { getCoverUrl } from '@/services/openLibrary/covers';
+import { getSubject } from '@/services/openLibrary/subjects';
 
 const FAN_CLASS_NAMES = [
   'left-0 translate-y-[2px] rotate-[-7deg] group-hover:translate-x-[-4px] group-hover:translate-y-[1px] group-hover:rotate-[-11deg]',
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const Component: React.FC<Props> = async ({ name, subject }) => {
-  const { works } = await getSubject({ subject }).catch(() => ({ works: [] }));
+  const { works } = await getSubject({ subject });
 
   return (
     <GenreTileButton>
