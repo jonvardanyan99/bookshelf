@@ -3,6 +3,8 @@
 import { clsx } from 'clsx';
 import { memo } from 'react';
 
+type ButtonType = 'button' | 'submit';
+
 type Variant = 'outlined' | 'primary' | 'text';
 
 const CLASS_NAMES: Record<Variant, string> = {
@@ -14,19 +16,22 @@ const CLASS_NAMES: Record<Variant, string> = {
 interface Props {
   children: React.ReactNode;
   className?: string;
-  onClick: () => void;
+  disabled?: boolean;
+  onClick?: () => void;
+  type: ButtonType;
   variant: Variant;
 }
 
-const Component: React.FC<Props> = ({ children, className, onClick, variant }) => (
+const Component: React.FC<Props> = ({ children, className, disabled, onClick, type, variant }) => (
   <button
     className={clsx(
       CLASS_NAMES[variant],
       className,
-      'h-[36px] cursor-pointer rounded-[8px] px-[16px] text-body whitespace-nowrap',
+      'h-[36px] cursor-pointer rounded-[8px] px-[16px] text-body whitespace-nowrap disabled:cursor-default disabled:opacity-60',
     )}
+    disabled={disabled}
     onClick={onClick}
-    type="button"
+    type={type === 'submit' ? 'submit' : 'button'}
   >
     {children}
   </button>

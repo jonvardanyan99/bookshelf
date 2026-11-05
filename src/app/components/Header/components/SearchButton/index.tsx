@@ -10,7 +10,7 @@ const Component: React.FC = () => {
   }, []);
 
   return (
-    <Button className="w-full text-left" onClick={handleClick} variant="outlined">
+    <Button className="w-full text-left" onClick={handleClick} type="button" variant="outlined">
       Search
     </Button>
   );

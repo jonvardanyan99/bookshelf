@@ -1,11 +1,11 @@
 import Image, { type StaticImageData } from 'next/image';
-import Link from 'next/link';
-import { memo } from 'react';
+import { memo, Suspense } from 'react';
 
-import { AuthButtons } from '@/app/components/Header/components/AuthButtons';
+import { Account } from '@/app/components/Header/components/Account';
 import { NavLinkButton } from '@/app/components/Header/components/NavLinkButton';
 import { SearchButton } from '@/app/components/Header/components/SearchButton';
 import icon from '@/app/icon.svg';
+import { Link } from '@/components/Link';
 import { Typography } from '@/components/Typography';
 import { ROUTES } from '@/constants/routes';
 
@@ -13,7 +13,7 @@ const NAV_LINKS = ['My Books', 'Browse'];
 
 const Component: React.FC = () => (
   <header className="sticky top-0 z-2 mb-[12px] flex flex-wrap items-center gap-[16px] border-b border-gray-light bg-linear-to-b from-beige to-gray-light p-[12px]">
-    <Link className="flex items-center gap-[8px]" href={ROUTES.home}>
+    <Link className="flex items-center gap-[8px]" href={ROUTES.home} variant="plain">
       <Image alt="Bookshelf logo" className="size-[40px]" src={icon as StaticImageData} />
       <Typography className="text-h4! font-bold" variant="caption">
         Bookshelf
@@ -31,7 +31,9 @@ const Component: React.FC = () => (
     <search className="flex-1">
       <SearchButton />
     </search>
-    <AuthButtons />
+    <Suspense>
+      <Account />
+    </Suspense>
   </header>
 );
 

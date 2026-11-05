@@ -14,7 +14,7 @@ const Component: React.FC<Props> = ({ children }) => {
   }, []);
 
   return (
-    <Button onClick={handleClick} variant="text">
+    <Button onClick={handleClick} type="button" variant="text">
       {children}
     </Button>
   );

@@ -10,7 +10,12 @@ const Component: React.FC = () => {
   }, []);
 
   return (
-    <Button className="h-[32px]! px-[12px]! text-subtitle!" onClick={handleClick} variant="primary">
+    <Button
+      className="h-[32px]! px-[12px]! text-subtitle!"
+      onClick={handleClick}
+      type="button"
+      variant="primary"
+    >
       Become a Librarian
     </Button>
   );

@@ -17,6 +17,7 @@ const Component: React.FC<Props> = ({ children }) => {
     <Button
       className="group flex h-auto! w-full flex-col items-center gap-[12px] p-[16px]! shadow-raised"
       onClick={handleClick}
+      type="button"
       variant="outlined"
     >
       {children}

@@ -12,7 +12,10 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   description: 'Browse, discover and keep track of books with Open Library.',
-  title: 'Bookshelf',
+  title: {
+    default: 'Bookshelf',
+    template: '%s | Bookshelf',
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
