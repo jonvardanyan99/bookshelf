@@ -18,7 +18,7 @@ npm run dev                  # Next dev server (Turbopack)
 npm run build / start        # Production build / serve it
 npm run lint / lint:fix      # ESLint
 npm run format / format:fix  # Prettier on src/
-npm run type-check           # tsc --noEmit
+npm run type-check           # next typegen && tsc --noEmit
 npm run db:push              # Apply src/db/schema.ts to the database (drizzle-kit push)
 ```
 

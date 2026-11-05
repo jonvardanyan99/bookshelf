@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --check src",
     "format:fix": "prettier --write src",
-    "type-check": "tsc --noEmit",
+    "type-check": "next typegen && tsc --noEmit",
     "prepare": "husky",
     "db:push": "drizzle-kit push"
   },
