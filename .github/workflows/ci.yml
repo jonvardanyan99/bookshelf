@@ -18,3 +18,7 @@ jobs:
       - run: npm run lint
       - run: npm run format
       - run: npm run type-check
+      - run: npm run build
+        env:
+          DATABASE_URL: file:ci.db
+          SESSION_SECRET: ci-only-secret
