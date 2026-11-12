@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function LogInPage() {
   return (
-    <section aria-labelledby={TITLE_ID} className="max-w-[400px]">
+    <section aria-labelledby={TITLE_ID} className="max-w-standalone-page">
       <Typography className="mb-[12px]" id={TITLE_ID} variant="h1">
         Log In
       </Typography>

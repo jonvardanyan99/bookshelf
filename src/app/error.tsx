@@ -11,7 +11,7 @@ const TITLE_ID = 'error-title';
 
 export default function ErrorPage({ retry }: Props) {
   return (
-    <section aria-labelledby={TITLE_ID} className="max-w-[400px]">
+    <section aria-labelledby={TITLE_ID} className="max-w-standalone-page">
       <Typography className="mb-[12px]" id={TITLE_ID} variant="h1">
         Something went wrong
       </Typography>

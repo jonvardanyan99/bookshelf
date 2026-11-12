@@ -60,6 +60,7 @@ Cover images come from `covers.openlibrary.org`, which is allowed in `images.rem
 
 - `src/app/components/`: Header, Footer, Toaster and ActionToast (rendered by `layout.tsx`; Toaster configures sonner's `Toaster`: unstyled toasts with our tokens, a type icon from `src/assets/icons/`, a Dismiss button, 5 seconds, and ActionToast reads the toast cookie an action set before redirecting and renders ServerToast, which shows the toast and deletes that cookie) and the home page sections (rendered by `page.tsx`).
 - `src/app/error.tsx`: fallback for a page that can't render, inside the shared layout. Failed Server Actions show a toast instead.
+- `src/app/not-found.tsx`: the 404 page for unmatched URLs and `notFound()` calls, inside the shared layout.
 - `src/app/account/`: Log In (`login`) and Sign Up (`create`) pages, modeled on Open Library's `/account/login` and `/account/create`. The header's `Account` shows Log In / Sign Up links or the screen name with Log Out.
 - `src/actions/`: `auth.ts` (`signUp`, `logIn`, `logOut` Server Actions).
 - `src/lib/`: server-only code. `session.ts` (JWT in an httpOnly `session` cookie via `jose`, 7 days), `dal.ts` (`getCurrentUser`, `getUser`), `password.ts` (`node:crypto` scrypt), `rateLimit.ts` (in-memory, per email: 10 log in attempts per 15 minutes, so it holds only with a single server process), `toast.ts` (`setRedirectToast`: the toast cookie an action sets before redirecting).
@@ -84,6 +85,7 @@ Light theme only: there is no dark mode, so never use `dark:` variants.
 - **Button variants:** `primary` (filled), `outlined` (white with a border), `text` (no background until hover). Default size `h-[36px] px-[16px] text-body`, on one line (`whitespace-nowrap`).
 - **Link variants:** `inline` (underlined primary text), `plain` (no look: the logo), `primary` and `text` (the same look as Button's).
 - **Shadows:** `shadow-raised` for cards, tiles and filled buttons; `shadow-cover` for book covers.
+- **Layout widths:** `max-w-standalone-page` (400px) for standalone pages, whose content is one short block (a form or a message): Log In, Sign Up, the error and not found pages.
 - **Text spacing scale:**
   - `4px`: a title and its own description or value (fact name → line, stat value → label, card title → description), and between links in a compact link list (footer).
   - `12px`: a heading → its content, and between paragraphs or list items.
