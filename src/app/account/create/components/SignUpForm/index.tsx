@@ -1,14 +1,15 @@
 'use client';
 
-import { memo, useActionState } from 'react';
+import { memo } from 'react';
 
 import { signUp } from '@/actions/auth';
 import { Button } from '@/components/Button';
 import { TextField } from '@/components/TextField';
 import { PASSWORD_FIELD } from '@/constants/formFields';
+import { useFormAction } from '@/hooks/useFormAction';
 
 const Component: React.FC = () => {
-  const [state, action, pending] = useActionState(signUp, {});
+  const [state, action] = useFormAction(signUp, {});
 
   return (
     <form action={action} className="mb-[24px] flex flex-col items-start gap-[24px]">
@@ -37,7 +38,7 @@ const Component: React.FC = () => {
           type="password"
         />
       </div>
-      <Button disabled={pending} type="submit" variant="primary">
+      <Button type="submit" variant="primary">
         Sign Up
       </Button>
     </form>

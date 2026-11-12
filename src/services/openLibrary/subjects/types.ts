@@ -4,12 +4,14 @@ export interface GetSubjectVariables {
 }
 
 export interface GetSubjectResponse {
-  works: {
-    authors: {
-      name: string;
-    }[];
-    cover_id: number | null;
-    key: string;
-    title: string;
-  }[];
+  works:
+    | {
+        authors: {
+          name: string;
+        }[];
+        cover_id: number | null;
+        key: string;
+        title: string;
+      }[]
+    | null;
 }

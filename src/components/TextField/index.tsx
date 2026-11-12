@@ -36,7 +36,7 @@ const Component: React.FC<Props> = ({ autoComplete, defaultValue, errors, label,
         type={type}
       />
       {hasErrors && (
-        <Typography className="text-error" id={errorId} variant="caption">
+        <Typography className="text-error" id={errorId} role="alert" variant="caption">
           {errors.join(' ')}
         </Typography>
       )}

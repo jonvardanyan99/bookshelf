@@ -3,9 +3,12 @@ import './globals.css';
 import { clsx } from 'clsx';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { Suspense } from 'react';
 
+import { ActionToast } from '@/app/components/ActionToast';
 import { Footer } from '@/app/components/Footer';
 import { Header } from '@/app/components/Header';
+import { Toaster } from '@/app/components/Toaster';
 import { Typography } from '@/components/Typography';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -38,6 +41,10 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           {children}
         </main>
         <Footer />
+        <Toaster />
+        <Suspense>
+          <ActionToast />
+        </Suspense>
       </body>
     </html>
   );

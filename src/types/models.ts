@@ -1,3 +1,5 @@
+export type ToastType = 'error' | 'success';
+
 export interface ParsedForm<Data> {
   data: Data | null;
   errors: Partial<Record<keyof Data, string[]>>;

@@ -24,6 +24,6 @@ export const getSubject = async ({
   } catch {
     cacheLife('minutes');
 
-    return { works: [] };
+    return { works: null };
   }
 };

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { LogInForm } from '@/app/account/login/components/LogInForm';
+import { FormActionBoundary } from '@/components/FormActionBoundary';
 import { Link } from '@/components/Link';
 import { Typography } from '@/components/Typography';
 import { ROUTES } from '@/constants/routes';
@@ -17,7 +18,9 @@ export default function LogInPage() {
       <Typography className="mb-[12px]" id={TITLE_ID} variant="h1">
         Log In
       </Typography>
-      <LogInForm />
+      <FormActionBoundary>
+        <LogInForm />
+      </FormActionBoundary>
       <Typography variant="body">
         Not a member of Bookshelf?{' '}
         <Link href={ROUTES.signUp} variant="inline">

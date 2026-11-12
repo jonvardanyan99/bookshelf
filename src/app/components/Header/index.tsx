@@ -6,6 +6,7 @@ import { NavLinkButton } from '@/app/components/Header/components/NavLinkButton'
 import { SearchButton } from '@/app/components/Header/components/SearchButton';
 import icon from '@/app/icon.svg';
 import { Link } from '@/components/Link';
+import { Loader } from '@/components/Loader';
 import { Typography } from '@/components/Typography';
 import { ROUTES } from '@/constants/routes';
 
@@ -31,7 +32,7 @@ const Component: React.FC = () => (
     <search className="flex-1">
       <SearchButton />
     </search>
-    <Suspense>
+    <Suspense fallback={<Loader className="w-[168px]" />}>
       <Account />
     </Suspense>
   </header>

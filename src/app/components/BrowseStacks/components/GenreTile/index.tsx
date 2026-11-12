@@ -3,9 +3,12 @@ import Image from 'next/image';
 import { memo } from 'react';
 
 import { GenreTileButton } from '@/app/components/BrowseStacks/components/GenreTile/components/GenreTileButton';
+import { ServerToast } from '@/components/ServerToast';
 import { Typography } from '@/components/Typography';
 import { getCoverUrl } from '@/services/openLibrary/covers';
 import { getSubject } from '@/services/openLibrary/subjects';
+
+const OPEN_LIBRARY_ERROR_MESSAGE = "Book covers couldn't load right now. Please try again later.";
 
 const FAN_CLASS_NAMES = [
   'left-0 translate-y-[2px] rotate-[-7deg] group-hover:translate-x-[-4px] group-hover:translate-y-[1px] group-hover:rotate-[-11deg]',
@@ -24,7 +27,7 @@ const Component: React.FC<Props> = async ({ name, subject }) => {
   return (
     <GenreTileButton>
       <div aria-hidden="true" className="relative h-[72px] w-[88px]">
-        {works.map((work, index) => {
+        {works?.map((work, index) => {
           const coverClassName = clsx(
             FAN_CLASS_NAMES[index],
             'absolute bottom-0 h-[66px] w-[44px] overflow-hidden rounded-[4px] bg-beige shadow-cover transition-transform',
@@ -48,6 +51,7 @@ const Component: React.FC<Props> = async ({ name, subject }) => {
       <Typography className="text-subtitle! font-semibold" variant="caption">
         {name}
       </Typography>
+      {!works && <ServerToast message={OPEN_LIBRARY_ERROR_MESSAGE} type="error" />}
     </GenreTileButton>
   );
 };

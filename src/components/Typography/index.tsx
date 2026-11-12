@@ -3,6 +3,8 @@ import { memo } from 'react';
 
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'subtitle' | 'caption';
 
+type Role = 'alert';
+
 const ELEMENTS = {
   body: 'p',
   caption: 'span',
@@ -27,14 +29,15 @@ interface Props {
   children: React.ReactNode;
   className?: string;
   id?: string;
+  role?: Role;
   variant: Variant;
 }
 
-const Component: React.FC<Props> = ({ children, className, id, variant }) => {
+const Component: React.FC<Props> = ({ children, className, id, role, variant }) => {
   const Element = ELEMENTS[variant];
 
   return (
-    <Element className={clsx(CLASS_NAMES[variant], className)} id={id}>
+    <Element className={clsx(CLASS_NAMES[variant], className)} id={id} role={role}>
       {children}
     </Element>
   );

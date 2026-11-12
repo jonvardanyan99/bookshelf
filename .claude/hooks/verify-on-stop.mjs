@@ -10,6 +10,7 @@ import {
   readHookInput,
   writeHookOutput,
 } from './hook-runtime.mjs';
+import { showFinishedNotification } from './notify.mjs';
 
 const ESLINT_PATH = join(PROJECT_ROOT, 'node_modules/eslint/bin/eslint.js');
 const TSC_PATH = join(PROJECT_ROOT, 'node_modules/typescript/bin/tsc');
@@ -26,8 +27,10 @@ const runCheck = (checkName, checkArguments) => {
     : `${checkName} failed:\n${[stdout, stderr, error?.message].filter(Boolean).join('\n').trim()}`;
 };
 
-const { session_id: sessionId } = readHookInput();
+const hookInput = readHookInput();
+const sessionId = hookInput.session_id;
 const dirtyMarkerPath = getDirtyMarkerPath(sessionId);
+let failureReport = '';
 
 if (existsSync(dirtyMarkerPath)) {
   rmSync(dirtyMarkerPath);
@@ -37,7 +40,7 @@ if (existsSync(dirtyMarkerPath)) {
     (editedFile) => editedFile && existsSync(join(PROJECT_ROOT, editedFile)),
   );
 
-  const failureReport = [
+  failureReport = [
     runCheck('type-check', [TSC_PATH, '--noEmit']),
     editedFiles.length > 0 &&
       runCheck('lint', [
@@ -59,4 +62,8 @@ if (existsSync(dirtyMarkerPath)) {
   } else {
     rmSync(editedFilesPath);
   }
+}
+
+if (!failureReport) {
+  showFinishedNotification(hookInput);
 }

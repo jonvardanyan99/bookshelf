@@ -2,8 +2,9 @@ import type * as zod from 'zod';
 
 import type { LOG_IN_SCHEMA, SIGN_UP_SCHEMA } from '@/utils/formSchemas';
 
-interface FormState<Fields extends string> {
+export interface FormState<Fields extends string> {
   errors?: Partial<Record<Fields, string[]>>;
+  toastError?: string;
   values?: Partial<Record<Fields, string>>;
 }
 

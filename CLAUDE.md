@@ -28,6 +28,8 @@ npm run db:push              # Apply src/db/schema.ts to the database (drizzle-k
 
 `next.config.ts` enables `cacheComponents` and `partialPrefetching`.
 
+**Stale dev cache:** when a change appears in `npm run build` output but not in `npm run dev`, even after restarting it (seen with a `globals.css` rule missing from the dev CSS), Turbopack's persistent dev cache in `.next/dev` is serving an old compile. Stop the dev server, delete `.next/dev` and start it again.
+
 For heavy testing (`docs/conventions.md`), serve the build on port 3100 with `DATABASE_URL` pointing at a temp file outside the repo and a throwaway `SESSION_SECRET`. Create the temp database from `drizzle-kit export` applied through `@libsql/client`, so nothing can push to `local.db`; override `OPEN_LIBRARY_URL` to point at a local stub. Without JavaScript a failed form returns a fragment with no form or error text (apparently from partial prerendering, and `useActionState`'s `permalink` doesn't help), so test form errors and refills in the browser request format (`Next-Action` header, `encodeReply`).
 
 ## Git
@@ -42,7 +44,7 @@ When asked for a commit message, only suggest it: never run `git commit` or crea
 - `guard-files`: denies reading or writing `.env.local`, and writing generated files, the URUQ AI project or secrets in `.env`.
 - `guard-code-rules`: denies new text in `src/` that breaks a styling or component rule (`dark:`, arbitrary shadows, bare `button`/`p`/`span`, `next/link`, hardcoded `href`s, hex colors and similar).
 - `after-edit`: runs Prettier on the edited file, records it for `verify-on-stop`, and reminds Claude to run `db:push` when `src/db/schema.ts` changes.
-- `verify-on-stop`: when a turn edited code, runs `tsc` and ESLint on the edited files and sends failures back to Claude once per round of edits.
+- `verify-on-stop`: when a turn edited code, runs `tsc` and ESLint on the edited files and sends failures back to Claude once per round of edits. When it lets the turn end, it shows a Windows notification (`notify.mjs`) with the first line of Claude's last message. Stop hooks run in parallel, so a separate notify hook would fire before a failed check sends Claude back to work.
 
 The guards catch mistakes and aren't a security boundary: edits made through shell commands skip all but `guard-commands`.
 
@@ -56,18 +58,19 @@ Cover images come from `covers.openlibrary.org`, which is allowed in `images.rem
 
 ## Architecture
 
-- `src/app/components/`: Header and Footer (rendered by `layout.tsx`) and the home page sections (rendered by `page.tsx`).
-- `src/app/error.tsx`: fallback for a failed page or Server Action, inside the shared layout.
+- `src/app/components/`: Header, Footer, Toaster and ActionToast (rendered by `layout.tsx`; Toaster configures sonner's `Toaster`: unstyled toasts with our tokens, a type icon from `src/assets/icons/`, a Dismiss button, 5 seconds, and ActionToast reads the toast cookie an action set before redirecting and renders ServerToast, which shows the toast and deletes that cookie) and the home page sections (rendered by `page.tsx`).
+- `src/app/error.tsx`: fallback for a page that can't render, inside the shared layout. Failed Server Actions show a toast instead.
 - `src/app/account/`: Log In (`login`) and Sign Up (`create`) pages, modeled on Open Library's `/account/login` and `/account/create`. The header's `Account` shows Log In / Sign Up links or the screen name with Log Out.
 - `src/actions/`: `auth.ts` (`signUp`, `logIn`, `logOut` Server Actions).
-- `src/lib/`: server-only code. `session.ts` (JWT in an httpOnly `session` cookie via `jose`, 7 days), `dal.ts` (`getCurrentUser`, `getUser`), `password.ts` (`node:crypto` scrypt), `rateLimit.ts` (in-memory, per email: 10 log in attempts per 15 minutes, so it holds only with a single server process).
-- `src/utils/`: `formSchemas.ts` (Zod schemas, `ERROR_MESSAGES`), `forms.ts` (`parseForm`: reads and validates a form for an action).
+- `src/lib/`: server-only code. `session.ts` (JWT in an httpOnly `session` cookie via `jose`, 7 days), `dal.ts` (`getCurrentUser`, `getUser`), `password.ts` (`node:crypto` scrypt), `rateLimit.ts` (in-memory, per email: 10 log in attempts per 15 minutes, so it holds only with a single server process), `toast.ts` (`setRedirectToast`: the toast cookie an action sets before redirecting).
+- `src/utils/`: `formSchemas.ts` (Zod schemas, `ERROR_MESSAGES`), `forms.ts` (`parseForm`: reads and validates a form for an action), `cookies.ts` (client-only `deleteCookie`).
 - `src/db/`: Drizzle ORM on SQLite via `@libsql/client`; one `users` table, where `screenNameKey` (the lowercased screen name) makes screen names unique regardless of case. The database file is `local.db` (gitignored).
 - `src/proxy.ts`: on a GET of the account pages, redirects a logged-in user to home and clears a session cookie whose user no longer exists.
-- `src/components/`: Typography, Button, Link, TextField.
-- `src/constants/`: `ROUTES` (`home`, `logIn`, `signUp`), `SESSION_COOKIE` (`cookies.ts`) and `PASSWORD_FIELD` (`formFields.ts`, the password field's name in schemas and inputs).
-- `src/types/`: `models.ts` (`ParsedForm`, the result of `parseForm`), `formValues.ts` (form state types) and `env.d.ts` (types `DATABASE_URL` and `SESSION_SECRET` as strings; they are always set, so the code reads them without checks).
-- `src/services/`: Open Library API calls. `openLibrary/index.ts` (`fetchOpenLibrary`) is an Axios instance with the base URL from `OPEN_LIBRARY_URL`, the `User-Agent` header and a 10-second timeout; Axios throws on a failed response. Endpoints are grouped by domain: `openLibrary/subjects/` (`getSubject`, with `types.ts`) and `openLibrary/covers/` (`getCoverUrl`). `getSubject` turns a failure into empty `works` cached for minutes, so an Open Library outage neither fails the build nor sticks.
+- `src/components/`: Typography, Button, Link, TextField, Loader, ServerToast (a client component a Server Component renders to show a toast with the `message` and `type` it passes, and to delete the `cookieToDelete` cookie when given; a toast without a cookie shows once per page load), FormActionBoundary (wraps every form: a `catchError` boundary that turns a rejected action, such as a lost connection, into an error toast and remounts the form empty).
+- `src/constants/`: `ROUTES` (`home`, `logIn`, `signUp`), `SESSION_COOKIE` and `TOAST_COOKIE` (`cookies.ts`), `TOASTS` and `UNEXPECTED_ERROR_MESSAGE` (`toasts.ts`: the success messages for actions that redirect, and the generic error shared by actions and FormActionBoundary) and `PASSWORD_FIELD` (`formFields.ts`, the password field's name in schemas and inputs).
+- `src/hooks/`: `useFormAction.ts` (`useActionState` on the Server Action itself, so forms work without JavaScript, plus an effect that shows the `toastError` it returns).
+- `src/types/`: `models.ts` (`ParsedForm`, the result of `parseForm`; `ToastType`), `formValues.ts` (form state types, with `toastError` in the shared `FormState`) and `env.d.ts` (types `DATABASE_URL` and `SESSION_SECRET` as strings; they are always set, so the code reads them without checks).
+- `src/services/`: Open Library API calls. `openLibrary/index.ts` (`fetchOpenLibrary`) is an Axios instance with the base URL from `OPEN_LIBRARY_URL`, the `User-Agent` header and a 10-second timeout; Axios throws on a failed response. Endpoints are grouped by domain: `openLibrary/subjects/` (`getSubject`, with `types.ts`) and `openLibrary/covers/` (`getCoverUrl`). `getSubject` turns a failure into `works: null` cached for minutes, so an Open Library outage neither fails the build nor sticks, and each `GenreTile` (which fetches its own subject) shows a toast for it through `ServerToast`; ServerToast uses the message as the toast `id`, so they show one toast.
 
 Open Library's API has no account endpoints, so accounts live in our own database. `.env` (committed) holds `OPEN_LIBRARY_URL=https://openlibrary.org`; `.env.local` (gitignored) holds `DATABASE_URL=file:local.db` and `SESSION_SECRET` (`openssl rand -base64 32`).
 
@@ -86,4 +89,4 @@ Light theme only: there is no dark mode, so never use `dark:` variants.
   - `12px`: a heading → its content, and between paragraphs or list items.
   - `24px`: text → its button, and between side-by-side columns.
   - `32px`: between page sections.
-- **z-index order:** `z-1` raised genre-tile cover (GenreTile), `z-2` sticky header (Header), `z-3` skip link (`layout.tsx`, above the header).
+- **z-index order:** `z-1` raised genre-tile cover (GenreTile), `z-2` sticky header (Header), `z-3` skip link (`layout.tsx`, above the header), `z-4` toasts (Toaster).

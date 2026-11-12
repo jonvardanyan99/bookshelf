@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { SignUpForm } from '@/app/account/create/components/SignUpForm';
+import { FormActionBoundary } from '@/components/FormActionBoundary';
 import { Link } from '@/components/Link';
 import { Typography } from '@/components/Typography';
 import { ROUTES } from '@/constants/routes';
@@ -17,7 +18,9 @@ export default function SignUpPage() {
       <Typography className="mb-[12px]" id={TITLE_ID} variant="h1">
         Sign Up
       </Typography>
-      <SignUpForm />
+      <FormActionBoundary>
+        <SignUpForm />
+      </FormActionBoundary>
       <Typography variant="body">
         Already have an account?{' '}
         <Link href={ROUTES.logIn} variant="inline">
