@@ -8,7 +8,7 @@ import { UNEXPECTED_ERROR_MESSAGE } from '@/constants/toasts';
 import { db } from '@/db';
 import { users } from '@/db/schema';
 import { hashPassword, UNKNOWN_USER_PASSWORD_HASH, verifyPassword } from '@/lib/password';
-import { clearLogInAttempts, consumeLogInAttempt } from '@/lib/rateLimit';
+import { clearLogInAttempts, consumeLogInAttempt, consumeSignUpAttempt } from '@/lib/rateLimit';
 import { createSession, deleteSession } from '@/lib/session';
 import { setRedirectToast } from '@/lib/toast';
 import type { LogInFormState, SignUpFormState } from '@/types/formValues';
@@ -26,6 +26,11 @@ export const signUp = async (
   }
 
   const { email, password, screenName } = form.data;
+  const isSignUpAllowed = await consumeSignUpAttempt();
+
+  if (!isSignUpAllowed) {
+    return { message: ERROR_MESSAGES.tooManySignUpAttempts, values: form.values };
+  }
 
   try {
     const insertedUsers = await db
@@ -73,9 +78,10 @@ export const logIn = async (
   }
 
   const { email, password } = form.data;
+  const isLogInAllowed = await consumeLogInAttempt(email);
 
-  if (!consumeLogInAttempt(email)) {
-    return { message: ERROR_MESSAGES.tooManyAttempts, values: form.values };
+  if (!isLogInAllowed) {
+    return { message: ERROR_MESSAGES.tooManyLogInAttempts, values: form.values };
   }
 
   try {

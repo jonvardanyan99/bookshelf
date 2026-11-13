@@ -4,11 +4,11 @@ import { Link } from '@/components/Link';
 import { Typography } from '@/components/Typography';
 import { ROUTES } from '@/constants/routes';
 
+const TITLE_ID = 'not-found-title';
+
 export const metadata: Metadata = {
   title: 'Page Not Found',
 };
-
-const TITLE_ID = 'not-found-title';
 
 export default function NotFoundPage() {
   return (

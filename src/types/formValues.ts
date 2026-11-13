@@ -12,4 +12,6 @@ export interface LogInFormState extends FormState<keyof zod.infer<typeof LOG_IN_
   message?: string;
 }
 
-export type SignUpFormState = FormState<keyof zod.infer<typeof SIGN_UP_SCHEMA>>;
+export interface SignUpFormState extends FormState<keyof zod.infer<typeof SIGN_UP_SCHEMA>> {
+  message?: string;
+}

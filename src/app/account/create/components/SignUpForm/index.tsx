@@ -5,6 +5,7 @@ import { memo } from 'react';
 import { signUp } from '@/actions/auth';
 import { Button } from '@/components/Button';
 import { TextField } from '@/components/TextField';
+import { Typography } from '@/components/Typography';
 import { PASSWORD_FIELD } from '@/constants/formFields';
 import { useFormAction } from '@/hooks/useFormAction';
 
@@ -37,6 +38,11 @@ const Component: React.FC = () => {
           name={PASSWORD_FIELD}
           type="password"
         />
+        {state.message && (
+          <Typography className="text-error" role="alert" variant="subtitle">
+            {state.message}
+          </Typography>
+        )}
       </div>
       <Button type="submit" variant="primary">
         Sign Up

@@ -11,8 +11,11 @@ export const ERROR_MESSAGES = {
   passwordRequired: 'Enter your password.',
   regex: 'Use letters, numbers, symbols and spaces, with at least one letter or number.',
   screenNameTaken: 'This screen name is taken.',
-  tooManyAttempts: 'Too many log in attempts. Try again in 15 minutes.',
+  tooManyLogInAttempts: 'Too many log in attempts. Try again in 15 minutes.',
+  tooManySignUpAttempts: 'Too many sign up attempts. Try again in an hour.',
 } as const;
+
+const MAX_PASSWORD_LENGTH = 128;
 
 const EMAIL_SCHEMA = zod
   .string()
@@ -24,7 +27,10 @@ const EMAIL_SCHEMA = zod
 
 export const LOG_IN_SCHEMA = zod.object({
   email: EMAIL_SCHEMA,
-  [PASSWORD_FIELD]: zod.string().min(1, { error: ERROR_MESSAGES.passwordRequired }),
+  [PASSWORD_FIELD]: zod
+    .string()
+    .min(1, { error: ERROR_MESSAGES.passwordRequired })
+    .max(MAX_PASSWORD_LENGTH, { error: ERROR_MESSAGES.max(MAX_PASSWORD_LENGTH) }),
 });
 
 export const SIGN_UP_SCHEMA = zod.object({
@@ -32,7 +38,7 @@ export const SIGN_UP_SCHEMA = zod.object({
   [PASSWORD_FIELD]: zod
     .string()
     .min(8, { error: ERROR_MESSAGES.min(8) })
-    .max(128, { error: ERROR_MESSAGES.max(128) }),
+    .max(MAX_PASSWORD_LENGTH, { error: ERROR_MESSAGES.max(MAX_PASSWORD_LENGTH) }),
   screenName: zod
     .string()
     .trim()

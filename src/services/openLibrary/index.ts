@@ -19,9 +19,11 @@ export const fetchOpenLibrary = async <OpenLibraryResponse>(
       throw new Error(`Open Library request failed with status ${String(response.status)}`);
     }
 
+    const responseBody = (await response.json()) as OpenLibraryResponse;
+
     cacheLife('days');
 
-    return (await response.json()) as OpenLibraryResponse;
+    return responseBody;
   } catch {
     cacheLife('minutes');
 

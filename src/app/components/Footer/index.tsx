@@ -30,9 +30,9 @@ const LINK_GROUPS = [
 ];
 
 const Component: React.FC = () => (
-  <footer className="flex flex-wrap gap-[24px] p-[40px_20px]">
+  <footer className="grid grid-cols-2 gap-[24px] p-[40px_20px] sm:grid-cols-4">
     {LINK_GROUPS.map((linkGroup) => (
-      <div className="min-w-[150px] flex-1" key={linkGroup.title}>
+      <div key={linkGroup.title}>
         <Typography className="mb-[12px] text-caption!" variant="h2">
           {linkGroup.title}
         </Typography>
