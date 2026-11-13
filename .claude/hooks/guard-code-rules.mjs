@@ -50,7 +50,7 @@ const CODE_RULES = [
   {
     exemptFile: 'src/services/openlibrary/index.ts',
     message: 'API calls go through fetchOpenLibrary in @/services/openLibrary.',
-    pattern: /from\s+['"]axios['"]/,
+    pattern: /\bfetch\(/,
   },
   {
     message: 'No icon libraries: use the real exported SVG with next/image.',

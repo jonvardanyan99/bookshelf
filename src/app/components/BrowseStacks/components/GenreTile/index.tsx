@@ -22,12 +22,12 @@ interface Props {
 }
 
 const Component: React.FC<Props> = async ({ name, subject }) => {
-  const { works } = await getSubject({ subject });
+  const subjectResponse = await getSubject({ subject });
 
   return (
     <GenreTileButton>
       <div aria-hidden="true" className="relative h-[72px] w-[88px]">
-        {works?.map((work, index) => {
+        {subjectResponse?.works.map((work, index) => {
           const coverClassName = clsx(
             FAN_CLASS_NAMES[index],
             'absolute bottom-0 h-[66px] w-[44px] overflow-hidden rounded-[4px] bg-beige shadow-cover transition-transform',
@@ -51,7 +51,7 @@ const Component: React.FC<Props> = async ({ name, subject }) => {
       <Typography className="text-subtitle! font-semibold" variant="caption">
         {name}
       </Typography>
-      {!works && <ServerToast message={OPEN_LIBRARY_ERROR_MESSAGE} type="error" />}
+      {!subjectResponse && <ServerToast message={OPEN_LIBRARY_ERROR_MESSAGE} type="error" />}
     </GenreTileButton>
   );
 };

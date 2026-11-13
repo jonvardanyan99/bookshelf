@@ -1,18 +1,30 @@
-import { create } from 'axios';
-
-const openLibraryClient = create({
-  baseURL: process.env.OPEN_LIBRARY_URL,
-  headers: { 'User-Agent': 'Bookshelf' },
-  timeout: 10_000,
-});
+import { cacheLife } from 'next/cache';
 
 export const fetchOpenLibrary = async <OpenLibraryResponse>(
   path: string,
   searchParams: Record<string, string>,
 ) => {
-  const response = await openLibraryClient.get<OpenLibraryResponse>(path, {
-    params: searchParams,
-  });
+  'use cache';
 
-  return response.data;
+  try {
+    const url = new URL(path, process.env.OPEN_LIBRARY_URL);
+    url.search = new URLSearchParams(searchParams).toString();
+
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'Bookshelf' },
+      signal: AbortSignal.timeout(10_000),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Open Library request failed with status ${String(response.status)}`);
+    }
+
+    cacheLife('days');
+
+    return (await response.json()) as OpenLibraryResponse;
+  } catch {
+    cacheLife('minutes');
+
+    return null;
+  }
 };
