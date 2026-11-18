@@ -32,7 +32,7 @@ const Component: React.FC = () => (
     <search className="flex-1">
       <SearchButton />
     </search>
-    <Suspense fallback={<Loader className="w-[168px]" />}>
+    <Suspense fallback={<Loader className="px-[76px]" />}>
       <Account />
     </Suspense>
   </header>
