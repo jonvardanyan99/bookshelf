@@ -3,10 +3,7 @@
 import { memo, useEffect } from 'react';
 import { toast } from 'sonner';
 
-import { UNEXPECTED_ERROR_MESSAGE } from '@/constants/toasts';
-
-const CONNECTION_ERROR_MESSAGE =
-  "We couldn't reach the server. Check your connection and try again.";
+import { TOAST_ERROR_MESSAGES } from '@/constants/toasts';
 
 interface Props {
   reset: () => void;
@@ -14,7 +11,9 @@ interface Props {
 
 const Component: React.FC<Props> = ({ reset }) => {
   useEffect(() => {
-    const errorMessage = navigator.onLine ? UNEXPECTED_ERROR_MESSAGE : CONNECTION_ERROR_MESSAGE;
+    const errorMessage = navigator.onLine
+      ? TOAST_ERROR_MESSAGES.unexpected
+      : TOAST_ERROR_MESSAGES.connectionLost;
 
     toast.error(errorMessage, { id: errorMessage });
     reset();

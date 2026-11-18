@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 
 import { ROUTES } from '@/constants/routes';
-import { UNEXPECTED_ERROR_MESSAGE } from '@/constants/toasts';
+import { TOAST_ERROR_MESSAGES } from '@/constants/toasts';
 import { db } from '@/db';
 import { users } from '@/db/schema';
 import { hashPassword, UNKNOWN_USER_PASSWORD_HASH, verifyPassword } from '@/lib/password';
@@ -59,7 +59,7 @@ export const signUp = async (
 
     await createSession(insertedUsers[0].id);
   } catch {
-    return { toastError: UNEXPECTED_ERROR_MESSAGE, values: form.values };
+    return { toastError: TOAST_ERROR_MESSAGES.unexpected, values: form.values };
   }
 
   await setRedirectToast('signedUp');
@@ -103,7 +103,7 @@ export const logIn = async (
     clearLogInAttempts(email);
     await createSession(user.id);
   } catch {
-    return { toastError: UNEXPECTED_ERROR_MESSAGE, values: form.values };
+    return { toastError: TOAST_ERROR_MESSAGES.unexpected, values: form.values };
   }
 
   await setRedirectToast('loggedIn');
