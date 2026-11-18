@@ -13,8 +13,8 @@ const Component: React.FC = () => {
   const [state, action] = useFormAction(logIn, {});
 
   return (
-    <form action={action} className="mb-[24px] flex flex-col items-start gap-[24px]">
-      <div className="flex flex-col gap-[12px] self-stretch">
+    <form action={action} className="mb-[24px]">
+      <div className="mb-[24px] flex flex-col gap-[12px]">
         <TextField
           autoComplete="email"
           defaultValue={state.values?.email}
