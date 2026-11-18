@@ -34,6 +34,8 @@
   --shadow-cover: 0 1px 2px rgb(31 27 22 / 0.3), 0 2px 8px rgb(31 27 22 / 0.28);
 
   --container-standalone-page: 400px;
+
+  --spacing-header-offset: 77px;
 }
 
 @layer base {
@@ -41,4 +43,9 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+}
+
+@utility scrollbar-thin {
+  scrollbar-color: var(--color-gray) transparent;
+  scrollbar-width: thin;
 }
