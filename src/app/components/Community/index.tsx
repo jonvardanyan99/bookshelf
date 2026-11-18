@@ -1,13 +1,32 @@
 import { clsx } from 'clsx';
+import Image, { type StaticImageData } from 'next/image';
 import { memo } from 'react';
 
 import { BecomeLibrarianButton } from '@/app/components/Community/components/BecomeLibrarianButton';
+import globeIcon from '@/assets/icons/globe.svg';
+import landmarkIcon from '@/assets/icons/landmark.svg';
+import pencilIcon from '@/assets/icons/pencil.svg';
 import { Typography } from '@/components/Typography';
 
 const FACTS = [
-  { description: 'By anyone, like Wikipedia', title: 'Editable' },
-  { description: 'Every record, free to download', title: 'Public' },
-  { description: 'Built on the Open Library catalog', title: 'Nonprofit' },
+  {
+    description: 'By anyone, like Wikipedia',
+    icon: pencilIcon as StaticImageData,
+    iconAlt: 'Pencil',
+    title: 'Editable',
+  },
+  {
+    description: 'Every record, free to download',
+    icon: globeIcon as StaticImageData,
+    iconAlt: 'Globe',
+    title: 'Public',
+  },
+  {
+    description: 'Built on the Open Library catalog',
+    icon: landmarkIcon as StaticImageData,
+    iconAlt: 'Library building',
+    title: 'Nonprofit',
+  },
 ];
 
 const STATS = [
@@ -22,11 +41,11 @@ const CARD_CLASS_NAME = 'rounded-[8px] border border-gray-light bg-white p-[24px
 const Component: React.FC = () => (
   <section aria-label="Community" className="mb-[32px] flex flex-col gap-[16px] md:flex-row">
     <div className={clsx(CARD_CLASS_NAME, 'flex flex-col gap-[24px] md:flex-2 md:flex-row')}>
-      <div className="flex flex-1 flex-col items-start gap-[12px]">
-        <Typography className="max-w-[340px] text-h3!" variant="h2">
+      <div className="flex-1">
+        <Typography className="mb-[12px] max-w-[340px] text-h3!" variant="h2">
           A library made by the people who use it.
         </Typography>
-        <Typography className="mb-[12px] max-w-[565px] text-gray" variant="body">
+        <Typography className="mb-[24px] max-w-[565px] text-gray" variant="body">
           A catalog for every book ever published, maintained by readers like you.
         </Typography>
         <BecomeLibrarianButton />
@@ -34,12 +53,13 @@ const Component: React.FC = () => (
       <dl className="mt-[4px] flex flex-col gap-[12px] md:w-[240px]">
         {FACTS.map((fact) => (
           <div key={fact.title}>
-            <dt className="mb-[4px]">
+            <dt className="mb-[4px] flex items-center gap-[12px]">
+              <Image alt={fact.iconAlt} className="size-[24px]" src={fact.icon} />
               <Typography className="font-semibold" variant="subtitle">
                 {fact.title}
               </Typography>
             </dt>
-            <dd>
+            <dd className="pl-[36px]">
               <Typography className="text-gray" variant="subtitle">
                 {fact.description}
               </Typography>
@@ -48,9 +68,9 @@ const Component: React.FC = () => (
         ))}
       </dl>
     </div>
-    <div className={clsx(CARD_CLASS_NAME, 'flex flex-col gap-[12px] md:flex-1')}>
+    <div className={clsx(CARD_CLASS_NAME, 'md:flex-1')}>
       <Typography
-        className="text-caption! font-medium! tracking-[0.24px] text-gray uppercase"
+        className="mb-[12px] text-caption! font-medium! tracking-[0.24px] text-gray uppercase"
         variant="h2"
       >
         In the last month
