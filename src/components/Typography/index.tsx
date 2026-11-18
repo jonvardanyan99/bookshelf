@@ -3,8 +3,6 @@ import { memo } from 'react';
 
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'subtitle' | 'caption';
 
-type Role = 'alert';
-
 const ELEMENTS = {
   body: 'p',
   caption: 'span',
@@ -25,22 +23,14 @@ const CLASS_NAMES: Record<Variant, string> = {
   subtitle: 'text-subtitle',
 };
 
-interface Props {
-  children: React.ReactNode;
-  className?: string;
-  id?: string;
-  role?: Role;
+interface Props extends React.HTMLAttributes<HTMLElement> {
   variant: Variant;
 }
 
-const Component: React.FC<Props> = ({ children, className, id, role, variant }) => {
+const Component: React.FC<Props> = ({ className, variant, ...elementProps }) => {
   const Element = ELEMENTS[variant];
 
-  return (
-    <Element className={clsx(CLASS_NAMES[variant], className)} id={id} role={role}>
-      {children}
-    </Element>
-  );
+  return <Element className={clsx(CLASS_NAMES[variant], className)} {...elementProps} />;
 };
 
 export const Typography = memo(Component);

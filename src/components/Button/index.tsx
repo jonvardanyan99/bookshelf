@@ -22,20 +22,25 @@ const LOADER_CLASS_NAMES: Record<Variant, string> = {
   text: 'text-black',
 };
 
-interface Props {
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
+interface Props extends React.ComponentProps<'button'> {
   type: ButtonType;
   variant: Variant;
 }
 
-const Component: React.FC<Props> = ({ children, className, onClick, type, variant }) => {
+const Component: React.FC<Props> = ({
+  children,
+  className,
+  disabled,
+  type,
+  variant,
+  ...buttonProps
+}) => {
   const { pending } = useFormStatus();
   const isSubmitting = type === 'submit' && pending;
 
   return (
     <button
+      {...buttonProps}
       aria-busy={isSubmitting}
       className={clsx(
         CLASS_NAMES[variant],
@@ -43,8 +48,7 @@ const Component: React.FC<Props> = ({ children, className, onClick, type, varian
         'relative h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap',
         { 'text-transparent!': isSubmitting },
       )}
-      disabled={isSubmitting}
-      onClick={onClick}
+      disabled={disabled === true || isSubmitting}
       type={type === 'submit' ? 'submit' : 'button'}
     >
       {children}
