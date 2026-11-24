@@ -12,7 +12,7 @@ const LINK_GROUPS = [
       'Home',
       'Books',
       'Authors',
-      'Subjects',
+      'Genres',
       'Collections',
       'Advanced Search',
       'Return to Top',

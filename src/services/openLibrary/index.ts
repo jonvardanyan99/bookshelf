@@ -1,9 +1,11 @@
 import { cacheLife } from 'next/cache';
 
+import type { OpenLibraryResult } from '@/types/models';
+
 export const fetchOpenLibrary = async <OpenLibraryResponse>(
   path: string,
   searchParams: Record<string, string>,
-) => {
+): Promise<OpenLibraryResult<OpenLibraryResponse>> => {
   'use cache';
 
   try {
@@ -16,17 +18,19 @@ export const fetchOpenLibrary = async <OpenLibraryResponse>(
     });
 
     if (!response.ok) {
-      throw new Error(`Open Library request failed with status ${String(response.status)}`);
+      cacheLife('minutes');
+
+      return { data: null, status: response.status };
     }
 
     const responseBody = (await response.json()) as OpenLibraryResponse;
 
     cacheLife('days');
 
-    return responseBody;
+    return { data: responseBody, status: response.status };
   } catch {
     cacheLife('minutes');
 
-    return null;
+    return { data: null, status: null };
   }
 };

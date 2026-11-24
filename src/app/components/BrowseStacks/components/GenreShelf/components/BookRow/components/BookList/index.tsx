@@ -13,20 +13,22 @@ interface Props {
 }
 
 const Component: React.FC<Props> = async ({ query, sort }) => {
-  const searchResponse = await searchWorks({ query, sort });
+  const searchResult = await searchWorks({ query, sort });
 
-  if (!searchResponse) {
+  if (!searchResult.data) {
     return <ServerToast message={TOAST_ERROR_MESSAGES.openLibraryUnavailable} type="error" />;
   }
 
-  if (searchResponse.docs.length === 0) {
+  const books = searchResult.data.docs;
+
+  if (books.length === 0) {
     return <EmptyData />;
   }
 
   return (
     <ul className="flex scrollbar-thin gap-[16px] overflow-x-auto p-[4px_4px_12px_4px]">
-      {searchResponse.docs.map((doc) => (
-        <BookCard book={doc} key={doc.key} />
+      {books.map((book) => (
+        <BookCard book={book} key={book.key} />
       ))}
     </ul>
   );

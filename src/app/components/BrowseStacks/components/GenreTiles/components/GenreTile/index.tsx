@@ -23,7 +23,7 @@ const Component: React.FC<Props> = ({ genre, isActive }) => {
         href={genreHref}
         variant="outlined"
       >
-        <GenreCovers subject={genre.subject} />
+        <GenreCovers coversSubject={genre.coversSubject} />
         <Typography className="text-subtitle! font-semibold" variant="caption">
           {genre.name}
         </Typography>

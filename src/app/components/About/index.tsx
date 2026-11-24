@@ -23,7 +23,7 @@ const Component: React.FC = () => (
           Just like Wikipedia, you can contribute new information or corrections to the catalog. You
           can browse by{' '}
           <Typography className="text-subtitle! text-primary" variant="caption">
-            subjects
+            genres
           </Typography>
           ,{' '}
           <Typography className="text-subtitle! text-primary" variant="caption">
