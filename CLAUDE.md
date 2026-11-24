@@ -34,7 +34,7 @@ For heavy testing (`docs/conventions.md`), serve the build on port 3100 with `DA
 
 ## Git
 
-When asked for a commit message, only suggest it: never run `git commit` or create a branch. The user commits on `main` themselves. Messages are short and imperative (`Create home page UI`).
+When asked for a commit message, only suggest it: never run `git commit` or create a branch. The user commits on `main` themselves. Messages are short and imperative, and the verb follows the history: `Create` for a new page (`Create book page`), `Add` for a feature or piece added to existing code (`Add security headers`), `Update` for a commit that changes only docs (`Update conventions`), and the verb that names the change otherwise (`Replace`, `Move`, `Rename`). Split staged work into commits by change, each with the docs that describe it, and check `git log` for how earlier commits grouped the same kind of change.
 
 ## Claude Code hooks
 
