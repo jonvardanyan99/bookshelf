@@ -45,7 +45,7 @@ const Component: React.FC<Props> = ({
       className={clsx(
         CLASS_NAMES[variant],
         className,
-        'relative h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap',
+        'relative h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap transition-colors',
         { 'text-transparent!': isSubmitting },
       )}
       disabled={disabled === true || isSubmitting}

@@ -5,7 +5,7 @@ import { memo } from 'react';
 type LinkVariant = 'inline' | 'outlined' | 'plain' | 'primary' | 'text';
 
 const CLASS_NAMES: Record<LinkVariant, string> = {
-  inline: 'text-primary underline hover:text-secondary',
+  inline: 'text-primary underline transition-colors hover:text-secondary',
   outlined:
     'border border-gray-light bg-white hover:bg-beige aria-[current=true]:border-primary aria-[current=true]:bg-beige',
   plain: '',
@@ -23,7 +23,7 @@ const Component: React.FC<Props> = ({ className, variant, ...linkProps }) => {
   return (
     <NextLink
       className={clsx(CLASS_NAMES[variant], className, {
-        'inline-flex h-[36px] items-center rounded-[8px] px-[16px] text-body whitespace-nowrap':
+        'inline-flex h-[36px] items-center rounded-[8px] px-[16px] text-body whitespace-nowrap transition-colors':
           isButtonLook,
       })}
       {...linkProps}

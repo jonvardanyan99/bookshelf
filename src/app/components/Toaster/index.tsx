@@ -31,7 +31,7 @@ const Component: React.FC = () => (
     toastOptions={{
       classNames: {
         closeButton:
-          'order-last h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap hover:bg-gray-light',
+          'order-last h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap transition-colors hover:bg-gray-light',
         error: 'border-error',
         success: 'border-success',
         title: 'text-subtitle',
