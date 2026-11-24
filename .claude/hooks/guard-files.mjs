@@ -22,7 +22,7 @@ const isEnvLocal = normalizeForComparison(basename(absolutePath)) === '.env.loca
 const isWrite = hookInput.tool_name !== 'Read';
 const isGeneratedFile = GENERATED_FILES.includes(projectRelativePath);
 const isInUruqAi = comparablePath.startsWith(URUQ_AI_ROOT);
-const addsSecretToEnv =
+const hasEnvSecret =
   projectRelativePath === '.env' &&
   /\b(?:DATABASE_URL|SESSION_SECRET)\s*=/.test(getIncomingText(hookInput));
 
@@ -32,7 +32,7 @@ if (isEnvLocal) {
   writePermissionDecision('deny', `${projectRelativePath} is generated: use its tool instead.`);
 } else if (isWrite && isInUruqAi) {
   writePermissionDecision('deny', 'CLAUDE.md: never edit anything in the URUQ AI project.');
-} else if (isWrite && addsSecretToEnv) {
+} else if (isWrite && hasEnvSecret) {
   writePermissionDecision(
     'deny',
     '.env is committed: DATABASE_URL and SESSION_SECRET belong in .env.local.',
