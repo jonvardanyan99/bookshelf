@@ -26,7 +26,7 @@ Verify every change with `npm run type-check` and `npm run lint`.
 - **Report honestly:** separate confirmed bugs from plausible ones, list ruled-out suspects, and list what couldn't be tested (anything needing a browser) as untested, never as passed.
 - **Clean up:** stop only the processes you started, never a dev server already running, delete the temp data, restore a working build, and confirm `git status` shows nothing unexpected.
 
-Git hooks (Husky): pre-commit runs lint-staged (`eslint --fix` on staged TS, `prettier --write` on CSS/JSON/MD) plus `type-check`; pre-push runs `lint`, `format` and `type-check`. CI (`.github/workflows/ci.yml`) runs the same three plus `build`. Never bypass the hooks with `--no-verify`.
+Git hooks (Husky): pre-commit runs `type-check`, then lint-staged (`eslint --fix` on staged TS, `prettier --write` on CSS/JSON/MD); pre-push runs `type-check`, `lint` and `format`. CI (`.github/workflows/ci.yml`) runs the same three plus `build`. `type-check` always runs first: it generates the framework's route types (`next typegen`), which ESLint's type-aware rules read as unresolved `error` types on a fresh checkout where they don't exist yet. Never bypass the hooks with `--no-verify`.
 
 Claude Code hooks (`.claude/settings.json`, scripts in `.claude/hooks/`): when Claude finishes a turn, the user gets a desktop notification with the first line of Claude's last message, so they know the work or test is done without watching the terminal. Hooks for the same event run in parallel, so the notification is sent by the stop hook that runs the end-of-turn checks, and only when those checks pass: a separate notification hook would fire even when a failed check sends Claude back to work.
 
