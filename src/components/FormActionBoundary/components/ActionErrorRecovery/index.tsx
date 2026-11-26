@@ -1,12 +1,13 @@
 'use client';
 
+import type { ErrorInfo } from 'next/error';
 import { memo, useEffect } from 'react';
 import { toast } from 'sonner';
 
 import { TOAST_ERROR_MESSAGES } from '@/constants/toasts';
 
 interface Props {
-  reset: () => void;
+  reset: ErrorInfo['reset'];
 }
 
 const Component: React.FC<Props> = ({ reset }) => {

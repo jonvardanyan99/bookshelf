@@ -1,15 +1,13 @@
 'use client';
 
+import type { ErrorInfo } from 'next/error';
+
 import { Button } from '@/components/Button';
 import { Typography } from '@/components/Typography';
 
-interface Props {
-  retry: () => void;
-}
-
 const TITLE_ID = 'error-title';
 
-export default function ErrorPage({ retry }: Props) {
+export default function ErrorPage({ retry }: ErrorInfo) {
   return (
     <section aria-labelledby={TITLE_ID} className="max-w-standalone-page">
       <Typography className="mb-[12px]" id={TITLE_ID} variant="h1">
