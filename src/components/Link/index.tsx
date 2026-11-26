@@ -7,10 +7,11 @@ type LinkVariant = 'inline' | 'outlined' | 'plain' | 'primary' | 'text';
 const CLASS_NAMES: Record<LinkVariant, string> = {
   inline: 'text-primary underline transition-colors hover:text-secondary',
   outlined:
-    'border border-gray-light bg-white hover:bg-beige aria-[current=true]:border-primary aria-[current=true]:bg-beige',
+    'border border-gray-light bg-white hover:border-gray hover:bg-beige active:bg-gray-light aria-[current=true]:border-primary aria-[current=true]:bg-beige',
   plain: '',
-  primary: 'border border-primary bg-primary text-white shadow-raised hover:bg-secondary',
-  text: 'hover:bg-gray-light',
+  primary:
+    'border border-primary bg-primary text-white shadow-raised hover:bg-secondary hover:shadow-lifted active:shadow-none',
+  text: 'hover:bg-gray-light active:text-primary',
 };
 
 interface Props extends React.ComponentProps<typeof NextLink> {
@@ -23,7 +24,7 @@ const Component: React.FC<Props> = ({ className, variant, ...linkProps }) => {
   return (
     <NextLink
       className={clsx(CLASS_NAMES[variant], className, {
-        'inline-flex h-[36px] items-center rounded-[8px] px-[16px] text-body whitespace-nowrap transition-colors':
+        'inline-flex h-[36px] items-center rounded-[8px] px-[16px] text-body whitespace-nowrap transition':
           isButtonLook,
       })}
       {...linkProps}

@@ -31,12 +31,12 @@ const Component: React.FC = () => (
     toastOptions={{
       classNames: {
         closeButton:
-          'order-last h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap transition-colors hover:bg-gray-light',
+          'order-last h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap transition-colors hover:bg-gray-light active:text-primary',
         error: 'border-error',
         success: 'border-success',
         title: 'text-subtitle',
         toast:
-          'flex items-center gap-[12px] rounded-[8px] border bg-white p-[8px_16px] shadow-raised',
+          'flex items-center gap-[12px] rounded-[8px] border bg-white p-[8px_16px] shadow-lifted',
       },
       closeButtonAriaLabel: 'Dismiss',
       unstyled: true,

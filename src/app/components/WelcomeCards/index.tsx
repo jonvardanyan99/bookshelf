@@ -65,10 +65,12 @@ const Component: React.FC = () => (
     <ul className="flex scrollbar-thin gap-[16px] overflow-x-auto p-[4px_4px_12px_4px]">
       {CARDS.map((card) => (
         <li
-          className="flex w-[310px] shrink-0 items-center gap-[8px] rounded-[8px] border border-gray-light bg-beige p-[8px]"
+          className="flex w-[310px] shrink-0 items-center gap-[8px] rounded-[8px] border border-gray-light bg-beige p-[8px] shadow-raised"
           key={card.title}
         >
-          <Image alt={card.iconAlt} className="size-[80px]" src={card.icon} />
+          <div className="shrink-0 rounded-[8px] border border-gray-light bg-white p-[16px]">
+            <Image alt={card.iconAlt} className="size-[46px]" src={card.icon} />
+          </div>
           <div>
             <Typography className="mb-[4px] font-medium" variant="body">
               {card.title}

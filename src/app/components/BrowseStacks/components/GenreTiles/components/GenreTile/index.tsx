@@ -19,12 +19,15 @@ const Component: React.FC<Props> = ({ genre, isActive }) => {
     <li className="w-[120px] shrink-0">
       <Link
         aria-current={isActive}
-        className="group h-auto! w-full flex-col gap-[12px] p-[16px]! shadow-raised"
+        className="group h-auto! w-full flex-col gap-[12px] p-[16px]! shadow-raised hover:shadow-lifted"
         href={genreHref}
         variant="outlined"
       >
         <GenreCovers coversSubject={genre.coversSubject} />
-        <Typography className="text-subtitle! font-semibold" variant="caption">
+        <Typography
+          className="text-subtitle! font-semibold transition-colors group-hover:text-primary group-aria-[current=true]:text-primary"
+          variant="caption"
+        >
           {genre.name}
         </Typography>
       </Link>

@@ -14,9 +14,14 @@ interface Props {
 const Component: React.FC<Props> = ({ book }) => (
   <li className="w-[120px] shrink-0">
     <Link className="group block" href={ROUTES.book(getBookId(book.key))} variant="plain">
-      <BookCover className="mb-[8px]" coverId={book.cover_i} size="medium" title={book.title} />
+      <BookCover
+        className="mb-[8px] transition group-hover:translate-y-[-4px] group-hover:shadow-cover-lifted motion-reduce:transition-none"
+        coverId={book.cover_i}
+        size="medium"
+        title={book.title}
+      />
       <Typography
-        className="mb-[4px] truncate font-medium underline decoration-transparent transition-colors group-hover:decoration-current"
+        className="mb-[4px] truncate font-medium transition-colors group-hover:text-primary"
         variant="subtitle"
       >
         {book.title}

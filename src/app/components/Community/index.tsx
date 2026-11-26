@@ -36,7 +36,8 @@ const STATS = [
   { change: '↑ 222%', label: 'Lists Created', value: '5.9K' },
 ];
 
-const CARD_CLASS_NAME = 'rounded-[8px] border border-gray-light bg-white p-[24px] shadow-raised';
+const CARD_CLASS_NAME =
+  'rounded-[8px] border border-gray-light bg-linear-to-br from-white to-beige p-[24px] shadow-raised';
 
 const Component: React.FC = () => (
   <section aria-label="Community" className="mb-[32px] flex flex-col gap-[16px] md:flex-row">
@@ -84,11 +85,14 @@ const Component: React.FC = () => (
               </Typography>
             </dt>
             <dd className="flex flex-wrap items-baseline gap-[8px]">
-              <Typography className="text-h4! font-semibold tabular-nums" variant="body">
+              <Typography
+                className="text-h4! font-semibold text-primary tabular-nums"
+                variant="body"
+              >
                 {stat.value}
               </Typography>
               {stat.change && (
-                <Typography className="text-gray tabular-nums" variant="caption">
+                <Typography className="text-success tabular-nums" variant="caption">
                   {stat.change}
                 </Typography>
               )}

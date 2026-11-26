@@ -53,7 +53,7 @@ const Component: React.FC<Props> = ({ className, coverId, size, title }) => {
       className={clsx(
         sizeStyle.className,
         className,
-        'relative flex shrink-0 flex-col items-center justify-center gap-[8px] overflow-hidden rounded-[4px] border border-gray-light bg-beige shadow-cover',
+        'relative flex shrink-0 flex-col items-center justify-center gap-[8px] overflow-hidden rounded-[4px] border border-gray-light bg-beige shadow-cover after:absolute after:inset-y-0 after:left-0 after:w-[6px] after:bg-linear-to-r after:from-black/20 after:to-transparent',
       )}
     >
       {coverId ? (

@@ -23,7 +23,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html className={clsx(inter.className, 'h-full antialiased')} lang="en">
+    <html
+      className={clsx(
+        inter.className,
+        'h-full scroll-smooth antialiased motion-reduce:scroll-auto',
+      )}
+      data-scroll-behavior="smooth"
+      lang="en"
+    >
       <body className="mx-auto flex min-h-full max-w-[1060px] flex-col bg-beige text-black">
         <a
           className="sr-only rounded-[8px] border border-gray-light bg-white p-[8px_16px] text-primary underline focus:not-sr-only focus:absolute focus:top-[8px] focus:left-[8px] focus:z-3"

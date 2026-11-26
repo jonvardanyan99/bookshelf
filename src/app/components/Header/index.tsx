@@ -13,10 +13,17 @@ import { ROUTES } from '@/constants/routes';
 const NAV_LINKS = ['My Books', 'Browse'];
 
 const Component: React.FC = () => (
-  <header className="sticky top-0 z-2 mb-[12px] flex flex-wrap items-center gap-[16px] border-b border-gray-light bg-linear-to-b from-beige to-gray-light p-[12px]">
-    <Link className="flex items-center gap-[8px]" href={ROUTES.home} variant="plain">
-      <Image alt="Bookshelf logo" className="size-[40px]" src={icon as StaticImageData} />
-      <Typography className="text-h4! font-bold" variant="caption">
+  <header className="sticky top-0 z-2 mb-[12px] flex flex-wrap items-center gap-[16px] border-b border-gray-light bg-linear-to-b from-white to-beige p-[12px] shadow-raised">
+    <Link className="group flex items-center gap-[8px]" href={ROUTES.home} variant="plain">
+      <Image
+        alt="Bookshelf logo"
+        className="size-[40px] transition-transform group-hover:rotate-[-6deg] motion-reduce:transition-none"
+        src={icon as StaticImageData}
+      />
+      <Typography
+        className="text-h4! font-bold transition-colors group-hover:text-primary"
+        variant="caption"
+      >
         Bookshelf
       </Typography>
     </Link>

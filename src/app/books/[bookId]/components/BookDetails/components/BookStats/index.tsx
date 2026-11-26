@@ -33,16 +33,19 @@ const Component: React.FC<Props> = async ({ bookId }) => {
   ];
 
   return (
-    <dl className="flex flex-wrap items-start gap-[24px]">
+    <dl className="flex flex-wrap gap-[16px]">
       {stats.map((stat) => (
-        <div className="flex flex-col-reverse gap-[4px]" key={stat.label}>
+        <div
+          className="flex flex-col-reverse gap-[4px] rounded-[8px] border border-gray-light bg-beige p-[12px_16px]"
+          key={stat.label}
+        >
           <dt>
             <Typography className="text-gray" variant="subtitle">
               {stat.label}
             </Typography>
           </dt>
           <dd>
-            <Typography className="text-h4! font-semibold tabular-nums" variant="body">
+            <Typography className="text-h4! font-semibold text-primary tabular-nums" variant="body">
               {stat.value}
             </Typography>
           </dd>

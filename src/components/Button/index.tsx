@@ -11,9 +11,11 @@ type ButtonType = 'button' | 'submit';
 type Variant = 'outlined' | 'primary' | 'text';
 
 const CLASS_NAMES: Record<Variant, string> = {
-  outlined: 'border border-gray-light bg-white hover:bg-beige',
-  primary: 'border border-primary bg-primary text-white shadow-raised hover:bg-secondary',
-  text: 'hover:bg-gray-light',
+  outlined:
+    'border border-gray-light bg-white hover:border-gray hover:bg-beige active:bg-gray-light',
+  primary:
+    'border border-primary bg-primary text-white shadow-raised hover:bg-secondary hover:shadow-lifted active:shadow-none',
+  text: 'hover:bg-gray-light active:text-primary',
 };
 
 const LOADER_CLASS_NAMES: Record<Variant, string> = {
@@ -45,7 +47,7 @@ const Component: React.FC<Props> = ({
       className={clsx(
         CLASS_NAMES[variant],
         className,
-        'relative h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap transition-colors',
+        'relative h-[36px] rounded-[8px] px-[16px] text-body whitespace-nowrap transition',
         { 'text-transparent!': isSubmitting },
       )}
       disabled={disabled === true || isSubmitting}

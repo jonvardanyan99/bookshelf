@@ -26,7 +26,7 @@ const Component: React.FC<Props> = async ({ query, sort }) => {
   }
 
   return (
-    <ul className="flex scrollbar-thin gap-[16px] overflow-x-auto p-[4px_4px_12px_4px]">
+    <ul className="flex animate-fade-in scrollbar-thin gap-[16px] overflow-x-auto p-[4px_4px_12px_4px]">
       {books.map((book) => (
         <BookCard book={book} key={book.key} />
       ))}
