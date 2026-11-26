@@ -2,6 +2,7 @@ import { memo, Suspense } from 'react';
 
 import { AuthorNames } from '@/app/books/[bookId]/components/BookDetails/components/AuthorNames';
 import { BookStats } from '@/app/books/[bookId]/components/BookDetails/components/BookStats';
+import { ReactMarkdown } from '@/app/books/[bookId]/components/BookDetails/components/ReactMarkdown';
 import { BookCover } from '@/components/BookCover';
 import { EmptyData } from '@/components/EmptyData';
 import { Loader } from '@/components/Loader';
@@ -31,15 +32,16 @@ const Component: React.FC<Props> = async ({ params }) => {
     typeof book.description === 'string' ? book.description : book.description?.value
   )?.trim();
   const authorKeys = book.authors?.map((author) => author.author.key) ?? [];
-  const topics = book.subjects
-    ?.map((topic) => topic.trim())
-    .filter((topic) => topic !== '')
-    .join(', ');
+  const topics = book.subjects?.map((topic) => topic.trim()) ?? [];
+  const uniqueTopics = [...new Set(topics)].filter((topic) => topic !== '');
 
   return (
-    <section aria-labelledby={TITLE_ID} className="flex flex-col gap-[24px] sm:flex-row">
+    <section
+      aria-labelledby={TITLE_ID}
+      className="flex animate-fade-in flex-col gap-[24px] sm:flex-row"
+    >
       <BookCover coverId={coverId} size="large" title={book.title} />
-      <div className="flex flex-col gap-[24px]">
+      <div className="flex flex-col gap-[24px] wrap-anywhere">
         <div className="flex flex-col gap-[4px]">
           <Typography className="text-h2!" id={TITLE_ID} variant="h1">
             {book.title}
@@ -55,26 +57,33 @@ const Component: React.FC<Props> = async ({ params }) => {
             </Typography>
           )}
         </div>
-        <Suspense fallback={<Loader className="py-[18px]" />}>
+        <Suspense fallback={<Loader className="py-[31px]" />}>
           <BookStats bookId={bookId} />
         </Suspense>
         <section aria-labelledby={DESCRIPTION_TITLE_ID}>
           <Typography className="mb-[12px] text-h4!" id={DESCRIPTION_TITLE_ID} variant="h2">
             Description
           </Typography>
-          {description ? (
-            <Typography className="whitespace-pre-line" variant="body">
-              {description}
-            </Typography>
-          ) : (
-            <EmptyData />
-          )}
+          {description ? <ReactMarkdown>{description}</ReactMarkdown> : <EmptyData />}
         </section>
         <section aria-labelledby={TOPICS_TITLE_ID}>
           <Typography className="mb-[12px] text-h4!" id={TOPICS_TITLE_ID} variant="h2">
             Topics
           </Typography>
-          {topics ? <Typography variant="body">{topics}</Typography> : <EmptyData />}
+          {uniqueTopics.length > 0 ? (
+            <ul className="flex flex-wrap gap-[12px]">
+              {uniqueTopics.map((topic) => (
+                <li
+                  className="rounded-[8px] border border-gray-light bg-beige p-[4px_12px]"
+                  key={topic}
+                >
+                  <Typography variant="subtitle">{topic}</Typography>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyData />
+          )}
         </section>
       </div>
     </section>
