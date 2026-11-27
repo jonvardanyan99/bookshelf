@@ -1,5 +1,6 @@
 import { memo } from 'react';
 
+import { RatingStars } from '@/app/books/[bookId]/components/BookDetails/components/BookStats/components/RatingStars';
 import { ServerToast } from '@/components/ServerToast';
 import { Typography } from '@/components/Typography';
 import { TOAST_ERROR_MESSAGES } from '@/constants/toasts';
@@ -25,7 +26,11 @@ const Component: React.FC<Props> = async ({ bookId }) => {
   const { average, count } = ratingsResult.data.summary;
   const shelfCounts = readingLogResult.data.counts;
   const stats = [
-    { label: 'Average rating', value: average === null ? 'Not rated' : average.toFixed(1) },
+    {
+      average,
+      label: 'Average rating',
+      value: average === null ? 'Not rated' : average.toFixed(1),
+    },
     { label: 'Ratings', value: formatCount(count) },
     { label: 'Want to read', value: formatCount(shelfCounts.want_to_read) },
     { label: 'Currently reading', value: formatCount(shelfCounts.currently_reading) },
@@ -44,7 +49,8 @@ const Component: React.FC<Props> = async ({ bookId }) => {
               {stat.label}
             </Typography>
           </dt>
-          <dd>
+          <dd className="flex items-center gap-[8px]">
+            {typeof stat.average === 'number' && <RatingStars average={stat.average} />}
             <Typography className="text-h4! font-semibold text-primary tabular-nums" variant="body">
               {stat.value}
             </Typography>
