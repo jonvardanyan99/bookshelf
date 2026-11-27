@@ -2,6 +2,7 @@ import { memo, Suspense } from 'react';
 
 import { AuthorNames } from '@/app/books/[bookId]/components/BookDetails/components/AuthorNames';
 import { BookStats } from '@/app/books/[bookId]/components/BookDetails/components/BookStats';
+import { ExpandablePreview } from '@/app/books/[bookId]/components/BookDetails/components/ExpandablePreview';
 import { ReactMarkdown } from '@/app/books/[bookId]/components/BookDetails/components/ReactMarkdown';
 import { BookCover } from '@/components/BookCover';
 import { EmptyData } from '@/components/EmptyData';
@@ -64,23 +65,39 @@ const Component: React.FC<Props> = async ({ params }) => {
           <Typography className="mb-[12px] text-h4!" id={DESCRIPTION_TITLE_ID} variant="h2">
             Description
           </Typography>
-          {description ? <ReactMarkdown>{description}</ReactMarkdown> : <EmptyData />}
+          {description ? (
+            <ExpandablePreview
+              collapsedClassName="max-h-[144px]"
+              collapseLabel="Read less"
+              expandLabel="Read more"
+            >
+              <ReactMarkdown>{description}</ReactMarkdown>
+            </ExpandablePreview>
+          ) : (
+            <EmptyData />
+          )}
         </section>
         <section aria-labelledby={TOPICS_TITLE_ID}>
           <Typography className="mb-[12px] text-h4!" id={TOPICS_TITLE_ID} variant="h2">
             Topics
           </Typography>
           {uniqueTopics.length > 0 ? (
-            <ul className="flex flex-wrap gap-[12px]">
-              {uniqueTopics.map((topic) => (
-                <li
-                  className="rounded-[8px] border border-gray-light bg-beige p-[4px_12px]"
-                  key={topic}
-                >
-                  <Typography variant="subtitle">{topic}</Typography>
-                </li>
-              ))}
-            </ul>
+            <ExpandablePreview
+              collapsedClassName="max-h-[113px]"
+              collapseLabel="Show fewer topics"
+              expandLabel={`Show all ${uniqueTopics.length} topics`}
+            >
+              <ul className="flex flex-wrap gap-[12px]">
+                {uniqueTopics.map((topic) => (
+                  <li
+                    className="rounded-[8px] border border-gray-light bg-beige p-[4px_12px]"
+                    key={topic}
+                  >
+                    <Typography variant="subtitle">{topic}</Typography>
+                  </li>
+                ))}
+              </ul>
+            </ExpandablePreview>
           ) : (
             <EmptyData />
           )}
