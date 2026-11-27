@@ -21,13 +21,13 @@ const Component: React.FC<Props> = ({ book }) => (
         title={book.title}
       />
       <Typography
-        className="mb-[4px] truncate font-medium transition-colors group-hover:text-primary"
+        className="truncate font-medium transition-colors group-hover:text-primary"
         variant="subtitle"
       >
         {book.title}
       </Typography>
       {book.author_name && (
-        <Typography className="truncate text-caption! text-gray" variant="subtitle">
+        <Typography className="mt-[4px] truncate text-caption! text-gray" variant="subtitle">
           {book.author_name[0]}
         </Typography>
       )}
